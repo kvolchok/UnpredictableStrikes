@@ -1,15 +1,12 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     private static readonly int MovingForward = Animator.StringToHash("Moving Forward");
     private static readonly int MovingBack = Animator.StringToHash("Moving Back");
-    private static readonly int KickAttack = Animator.StringToHash("Kick Attack");
-    private static readonly int BowAttack = Animator.StringToHash("Bow Attack");
+    private static readonly int AttackType = Animator.StringToHash("Attack Type");
+    private static readonly int Attack = Animator.StringToHash("Attack");
 
-    private readonly List<int> _attacks = new();
-    
     private Animator _animator;
     private bool _isMovingForward;
     private bool _isMovingBack;
@@ -17,8 +14,6 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _animator = GetComponent<Animator>();
-        _attacks.Add(KickAttack);
-        _attacks.Add(BowAttack);
     }
 
     private void Update()
@@ -48,14 +43,14 @@ public class PlayerController : MonoBehaviour
         
         if (Input.GetMouseButtonDown(0))
         {
-            Attack();
+            MakeAttack();
         }
     }
 
-    private void Attack()
+    private void MakeAttack()
     {
-        var randomAttackIndex = Random.Range(0, _attacks.Count);
-        var randomAttack = _attacks[randomAttackIndex];
-        _animator.SetTrigger(randomAttack);
+        _animator.SetTrigger(Attack);
+        var randomAttack = Random.Range(0, 10);
+        _animator.SetInteger(AttackType, randomAttack);
     }
 }
